@@ -1,5 +1,5 @@
 /* 
- * (C) Copyright Kalidus DBA Skava, 2018 all rights reserved
+ * (C) Copyright Kalidus DBA Skava, 2018-2019 all rights reserved
  * 
  * This code is provided on an as-is basis for the illustration of invoking the Skava API. It is not warranted to be fit for any other purpose. 
  * This code is not optimized for production purposes. 
@@ -23,15 +23,30 @@ import java.security.NoSuchAlgorithmException;
 
 public class HashPW {
 
+	
+/**
+ * simple SHA-512 Hasher 
+ * 	
+ * @param inputToHash
+ * @return
+ * @throws NoSuchAlgorithmException
+ */
 public static String hash512(String inputToHash) throws NoSuchAlgorithmException
 		{
 		MessageDigest md = MessageDigest.getInstance("SHA-512");
 		byte[] digest = md.digest(inputToHash.getBytes());
 		String hashedString = String.format("%0128x", new BigInteger(1, digest));
-		System.out.println("Hashed String"+hashedString);
 		return hashedString;
 		}
 
+
+/**
+ * Simple function to create a hash which matches how the front end stores passwords 
+ * 
+ * @param inputToHash
+ * @return
+ * @throws NoSuchAlgorithmException
+ */
 public static String createFrontendHash(String inputToHash) throws NoSuchAlgorithmException
    {
    String fullHash = hash512(inputToHash);
@@ -39,11 +54,18 @@ public static String createFrontendHash(String inputToHash) throws NoSuchAlgorit
    return trimmedHash+"@1aZ";
    }
 
+
+   /**
+    * 
+    * Simple driver to test 
+    * 
+    * @param args
+    */
    public static void main(String args[])
 		    {
 	        try {
-				String jw = createFrontendHash("Skava@15");
-				System.out.println(jw);
+				String hashedPW = createFrontendHash("Skava@15");
+				System.out.println(hashedPW);
 			} catch (NoSuchAlgorithmException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

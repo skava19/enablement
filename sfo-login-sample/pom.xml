@@ -17,11 +17,6 @@
   <dependencies>
   <dependency>
      <groupId>com.skava</groupId>
-     <artifactId>acount-sdk</artifactId>
-     <version>8.2.0-beta</version>
-  </dependency> 
-  <dependency>
-     <groupId>com.skava</groupId>
      <artifactId>orchestration-sdk</artifactId>
      <version>8.2.0-beta</version>
   </dependency> 

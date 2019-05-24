@@ -1,3 +1,11 @@
+/* 
+ * (C) Copyright Kalidus DBA Skava, 2018-2019 all rights reserved
+ * 
+ * This code is provided on an as-is basis for the illustration of invoking the Skava API. It is not warranted to be fit for any other purpose. 
+ * This code is not optimized for production purposes. 
+ *  
+ * 
+ */
 package com.skava.testSfoLogin;
 
 import java.io.IOException;
@@ -23,22 +31,37 @@ public class TestSFOLogin {
  * @return
  * @throws Exception 
  */
-	public static String getSessionForUser(String identity, String password, String businessId, String storeId) throws Exception
+	public static String getSessionForUser(String identity, String password, String storeId) throws Exception
 	{
+		// This block setsup the SDK to call our instance. 
+		// We need a apiClient to connect to the instance
+		// We need an api-key to penetrate the firewall. You should update it to match your instance, it is found on the admin business page. 
+		
 		ApiClient apiClient = new ApiClient();
 		apiClient.setBasePath("https://stratus.skavacommerce.com/orchestrationservices/storefront/");
 		apiClient.addDefaultHeader("x-api-key","okmOHLVAiP8WCzDKOivPQ81kCQb6WmDQ3dqFQfcS");
-		apiClient.setDebugging(true);
+		apiClient.setDebugging(false); // Set to true to see details on calls 
+		CustomersApi customersApi = new CustomersApi(apiClient);
+		
+		// These are ignored in the base call 
         String xVersion = null;
         String locale = null;
+        
+        // We want a new session, so pass in null
         String xSkSessionId = null;
-        CustomersApi customersApi = new CustomersApi(apiClient);
+        
+        // We're going to make a request on Customer to Login 
+        
+        // Set the Userid, and PW here. 
         CustomerLoginRequest body = new CustomerLoginRequest();
         body.setIdentity(identity);
+        // Hash the PW to match the front end's password creation 
         String hashedPw = HashPW.createFrontendHash(password);
         body.setPassword(hashedPw);
         body.setIdentityType(null);
-        CustomerLoginResponse loginResponse =null;
+        
+        // Call skava instance
+        CustomerLoginResponse loginResponse = null;
         try 
           {
           loginResponse = customersApi.login(storeId, body, locale, xSkSessionId, xVersion);
@@ -54,14 +77,20 @@ public class TestSFOLogin {
         return sessionForUser;
 	}
 
-
+    /**
+     * 
+     * Main for testing 
+     * 
+     * @param args
+     * @throws Exception
+     */
+	
 	public static void main(String[] args) throws Exception {
 		System.out.println("Starting customer driver");
 		String password = "Skava@123";
 		String identity = "skavattesting@gmail.com";
-		String businessId = "50";
 	   	String storeId = "132";
-		String sessionId = getSessionForUser(identity,password,businessId, storeId);
+		String sessionId = getSessionForUser(identity,password, storeId);
 	}
 	
 	
