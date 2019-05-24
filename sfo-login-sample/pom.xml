@@ -16,10 +16,10 @@
 </properties>
   <dependencies>
   <dependency>
-     <groupId>com.skava</groupId>
-     <artifactId>orchestration-sdk</artifactId>
-     <version>8.2.0-beta</version>
-  </dependency> 
+    <groupId>com.skava</groupId>
+    <artifactId>skava-orchestration-sdk</artifactId>
+    <version>8.2.0-beta</version>
+</dependency>
   <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
