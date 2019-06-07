@@ -73,5 +73,10 @@
     <artifactId>spring-security-core</artifactId>
     <version>5.1.3.RELEASE</version>
 </dependency>
+ <dependency>
+      <groupId>com.skava</groupId>
+      <artifactId>skava-catalog-sdk</artifactId>
+      <version>8.2.0-beta</version>
+    </dependency>
   </dependencies>
 </project>
