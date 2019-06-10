@@ -16,13 +16,14 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import com.skava.commerce.orchestration.client.api.CustomersApi;
 import com.skava.commerce.orchestration.client.invoker.ApiClient;
+import com.skava.commerce.orchestration.client.model.CustomerDetails;
 import com.skava.commerce.orchestration.client.model.CustomerLoginRequest;
 import com.skava.commerce.orchestration.client.model.CustomerLoginResponse;
 
 public class TestSFOLogin {
 	
 /** 
- * logs in the user and gets the sessions ID for same 
+ * This method uses the Skava SDK to log in the user and returns the sessions ID for same 
  * 
  * @param identity
  * @param password
@@ -33,7 +34,7 @@ public class TestSFOLogin {
  */
 	public static String getSessionForUser(String identity, String password, String storeId) throws Exception
 	{
-		// This block setsup the SDK to call our instance. 
+		// This block sets up the SDK to call our instance. 
 		// We need a apiClient to connect to the instance
 		// We need an api-key to penetrate the firewall. You should update it to match your instance, it is found on the admin business page. 
 		
@@ -59,7 +60,7 @@ public class TestSFOLogin {
         String hashedPw = HashPW.createFrontendHash(password);
         body.setPassword(hashedPw);
         body.setIdentityType(null);
-        
+       
         // Call skava instance
         CustomerLoginResponse loginResponse = null;
         try 
@@ -76,6 +77,31 @@ public class TestSFOLogin {
         System.out.println("Valid login, session id:"+sessionForUser);
         return sessionForUser;
 	}
+	
+	/**
+	 * 
+	 * This function uses the Skava SDK to retrieve the logged in user's details. 
+	 * 
+	 * @param session
+	 * @param businessId
+	 * @param storeId
+	 */
+	
+	public static void getCustomer(String session, String businessId, String storeId)
+	
+	{
+		
+		
+		ApiClient apiClient = new ApiClient();
+		apiClient.setBasePath("https://stratus.skavacommerce.com/orchestrationservices/storefront/");
+		apiClient.addDefaultHeader("x-api-key","okmOHLVAiP8WCzDKOivPQ81kCQb6WmDQ3dqFQfcS");
+		apiClient.setDebugging(false); // Set to true to see details on calls 
+		CustomersApi customersApi = new CustomersApi(apiClient);
+		String locale = null;
+		String version=null;
+	    CustomerDetails response = customersApi.getCustomer(storeId, session, locale, version);
+	    System.out.println("Customer details:"+response.toString());
+	}
 
     /**
      * 
@@ -91,6 +117,7 @@ public class TestSFOLogin {
 		String identity = "skavattesting@gmail.com";
 	   	String storeId = "132";
 		String sessionId = getSessionForUser(identity,password, storeId);
+		getCustomer(sessionId,"50","132");
 	}
 	
 	

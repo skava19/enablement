@@ -1,3 +1,11 @@
+/* 
+ * (C) Copyright Kalidus DBA Skava, 2018-2019 all rights reserved
+ * 
+ * This code is provided on an as-is basis for the illustration of invoking the Skava API. It is not warranted to be fit for any other purpose. 
+ * This code is not optimized for production purposes. 
+ *  
+ * 
+ */
 package com.skava.testSfoLogin;
 
 import java.io.IOException;
@@ -16,7 +24,7 @@ public class GetSku {
 	{
 	ApiClient apiClient = new ApiClient();
 	apiClient.setBasePath("https://"+sfDetails.getInstanceName()+"/catalogservices");
-	apiClient.setDebugging(true);
+	apiClient.setDebugging(false);
 	apiClient.addDefaultHeader("x-api-key",sfDetails.getApiKey());
 	return apiClient;
 	}
